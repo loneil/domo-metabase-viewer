@@ -172,10 +172,10 @@ The Metabase container will be built and deployed on your OpenShift project. Thi
 The build will be done in the same project as the deployment, but if integrating into your pipeline you would likely be using your **Tools** namespace for the build.
 
 The *eagle-helper-pods* repository provided by Julian Subda is the [original source](https://github.com/bcgov/eagle-helper-pods/tree/master/openshift/templates/metabase) of the bc and dc files required here. They are reproduced and tweaked for the project in this example in the repository that contains this readme.
-See [TBD link here](TBD) for the files you will use.
+See [TBD link here (will point to final repo)](TBD) for the files you will use.
 
 ## Create Build Config
-Fetch the build config file ([here](tbd)) familiarize yourself with it and edit it.
+Fetch the build config file ([here](metabase.bc.json)) familiarize yourself with it and edit it.
 
 At the top alter the "metadata.name" property to reflect your project acronym (instead of domo-metabase).
 
@@ -197,7 +197,7 @@ And you should have the tagged image (as well as the openjdk) in your images.
 ![images](img/metabase-bc-images.png "Metabase images")
 
 ## Create Deployment Config
-In the same manner import the deployment config ([here](tbd)) with some cusomization.
+In the same manner import the deployment config ([here](metabase.dc.json)) with some cusomization.
 
 At the top alter the "metadata.name" property to reflect your project acronym (instead of domo-metabase).
 
