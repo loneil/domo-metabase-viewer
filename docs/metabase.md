@@ -182,7 +182,7 @@ At the top alter the "metadata.name" property to reflect your project acronym (i
 Alter the "SUFFIX" parameter near the bottom to reflect your acronym (instead of domo).
 
 The docker image for the metabase build is supplied at the https://github.com/bcgov/eagle-helper-pods repository. Though you could move this to your repository if desired.  
-See the *SOURCE_REPOSITORY_URL* and *SOURCE_CONTEXT_DIR* attributes in the build config.
+See the *SOURCE_REPOSITORY_URL* and *SOURCE_CONTEXT_DIR* attributes in the build config and modify these to point to your repo structure if you are going that route.
 
 Add the build config to your OpenShift project and process it. The values in the Template Configuration step can be left as is.
 
@@ -241,9 +241,27 @@ Enter the Database Name as "sampledb", which was used in this example. If you us
 
 For the username and password for the database **use the read-only user** for the database you created and granted access to in an earlier step.
 
-![metabase step1](metabase-console-2.png "Metabase setup step 2").
+![metabase step2](metabase-console-2.png "Metabase setup step 2").
 
 In step 3 choose if you want to send annonymous usage stats and complete the setup.
 
 # Using Metabase
-You are set up in Metabase now
+You are set up in Metabase now and should be able to navigate around the Metabase console.
+
+This guide is not meant to be a comprehensive guide to using Metabase's features, that is better served by the [documentation](https://metabase.com/docs/latest/) provided by Metabase. However a few things to get you started are provided below.
+
+## Analyze Sample Data
+The sample dataset you imported was put into a data collection you called MetabaseQuickStart during the setup wizard (unless you chose another name). It can be accessed at the bottom of the main consle under OUR DATA.  
+Metabase also provides a pre-made "x-ray" of the new table in the collection featuring spme auto generated charts and readings. See TRY THESE X-RAYS BASED ON YOUR DATA at the top of the main console.
+
+![find your data](metabase-console-3.png "Metabase main page").
+
+Then you can click on the *Sample Data* table once in the MetabaseQuickStart collection, which will display the data in the table you imported as part of this documentation.  
+From there you can ask questions about the data, generate visualizations and more. Refer to the Metabase documentation for the many features available once analyzing a data table.
+
+Once you creaete questions and visualizations you can then to dashboards and collections that you can share with other users in metabase.
+
+## Add Other Users
+
+# Next Steps
+You have set up a quick Metabase instance pulling your data from a PostgreSQL database
