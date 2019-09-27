@@ -1,0 +1,6 @@
+keycloak:
+  auth-server-url: https://sso-dev.pathfinder.gov.bc.ca/auth/
+  resource: domo-metabase-viewer
+  realm: 98r0z7rz
+  public-client: true
+  principal-attribute: preferred_username
