@@ -262,6 +262,16 @@ From there you can ask questions about the data, generate visualizations and mor
 Once you creaete questions and visualizations you can then to dashboards and collections that you can share with other users in metabase.
 
 ## Add Other Users
+From the Admin panel you can invite other users.
+
+![admin](img/metabase-console-admin.png "Metabase admin access location").
+
+From there select the *People* tab and click *Add someone*. This allows you to create a Metabase local user (stored in Metabase, not associated with an IDIR or OpenShift user) and send an invite.  
+
+From the Metabase Admin screen you can use the *Permissions* tab to manage access to users or groups of users to the collections you set up to allow finer grained access control. See the Metabase documentation on [managing users](https://metabase.com/docs/latest/administration-guide/04-managing-users.html) for more details. 
 
 # Next Steps
-You have set up a quick Metabase instance pulling your data from a PostgreSQL database
+You have set up a quick Metabase instance pulling your data from a PostgreSQL database and configured user access to view and analyze this data.  
+This may be enough to fit your needs for a quick view into data you have transferred from existing CSV (or other) data sources, but if you wish to have a robust Metabase setup there are additional steps worth considering.
+
+## Transfer Metabase 
