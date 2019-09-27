@@ -20,30 +20,30 @@ This guide uses a [PostgreSQL](https://www.postgresql.org/) database to store th
 
 From the OpenShift web console, click to the Browse Catalog option and Filter to search for "PostgreSQL". Select the item that is just labelled "PostgreSQL" to add to your project.
 
-![add postgres](database-postgres-add.png "Adding PostgreSQL to your OpenShift project")
+![add postgres](img/database-postgres-add.png "Adding PostgreSQL to your OpenShift project")
 
 This will bring up the import wizard. Click next on step 1 and then in step 2 you can leave the values as default, other than to specify a username and strong password for yourself.
 For the purposes of the remainder of this documentdation the username and pw entered here will just be **admin** and **password123**.
 
-![config postgres](database-postgres-config.png "PostgreSQL setup steps - Config")
+![config postgres](img/database-postgres-config.png "PostgreSQL setup steps - Config")
 
 As this is a demo setup, the *sampledb* default database name will suffice. For your setup you can choose a more appropriate name if desired.  
 The default *public* schema will be used as well. You can adjust this if desired.
 
 In the next step (step 3 - Binding) select `Create a secret in <your project name> to be used later` to store the credentials in your OpenShift project.
 
-![binding postgres](database-postgres-binding.png "PostgreSQL setup steps - Binding")
+![binding postgres](img/database-postgres-binding.png "PostgreSQL setup steps - Binding")
 
 Finish through the wizard and wait until your new postgres deployment finishes and appears up.
 
-![postgres complete](database-postgres-complete.png "PostgreSQL deployment completed")
+![postgres complete](img/database-postgres-complete.png "PostgreSQL deployment completed")
 
 ## Connect Locally to PostgreSQL Database
 After your new database is up and running you can test out the connection from a local terminal. This can be accomplished by running `oc rsh` to shell into the pod where the DB is running and using the supplied [PSQL](https://www.postgresql.org/docs/9.6/app-psql.html) command line interface. If you wish to manage your database through a GUI (such as DBeaver or Azure Data Studio) you can forward the connection port via `oc port-forward -n NAMESPACE POD_NAME 15432:5432` and use your DB management application of choice. This demo will just rsh to the pod and use PSQL.
 
 Go into the pod and take note of the pod ID (postgresql-1-2x88m in the screenshot below) for use in the next step. Note the environment variables available in the container. These are the DB name and connection details you set up in a previous step.
 
-![postgres pod](database-postgres-pod.png "PostgreSQL pod information")
+![postgres pod](img/database-postgres-pod.png "PostgreSQL pod information")
 
 From a terminal, connect to your OpenShift project and rsh into the pod.
 
@@ -72,7 +72,7 @@ sampledb=>
 ```
 
 # Data Setup and Loading
-Now that you have a DB setup in your OpenShift project you are ready to load your tabular data into that DB. This example will use a very simple dataset that can be found [here](tbd) if you wish to follow along, with notes on more complex source data at the bottom of this section.
+Now that you have a DB setup in your OpenShift project you are ready to load your tabular data into that DB. This example will use a very simple dataset that can be found [here](sampleData/SampleData.csv) if you wish to follow along, with notes on more complex source data at the bottom of this section.
 
 ## Convert to CSV if necessary
 If you have your source data in an Excel (or other type of) spreadsheet the first step is to save it as a CSV. If your data is in multiple tabs of a single spreadsheet, save each one as a CSV.
@@ -80,7 +80,7 @@ If you have your source data in an Excel (or other type of) spreadsheet the firs
 Ensure that the **column names** do not have any spaces in them and adjust if necessary. You can replace them with - or _. Consider doing this in Excel with a formula prior to CSV save if you have a lot of column names that need adjusting.
 
 
-![save csv](datasetup-csv-save.png "PostgreSQL pod information")
+![save csv](img/datasetup-csv-save.png "PostgreSQL pod information")
 
 ## Create Table(s) in Database
 For each distinct dataset involved there will be a PostgreSQL table created to hold the data. This documentation will show a manual create->copy process but there may be tools available to shorten this if you need. For example, if using DBeaver you may be able to create the table from the CSV file <https://justnumbersandthings.com/post/2018-06-12-dbeaver-import-csv/>.
@@ -186,15 +186,15 @@ See the *SOURCE_REPOSITORY_URL* and *SOURCE_CONTEXT_DIR* attributes in the build
 
 Add the build config to your OpenShift project and process it. The values in the Template Configuration step can be left as is.
 
-![add to project](metabase-bc-import.png "Import a config")
+![add to project](img/metabase-bc-import.png "Import a config")
 
-![import bc](metabase-bc-add.png "Metabase build config import")
+![import bc](img/metabase-bc-add.png "Metabase build config import")
 
 Check on the build to see when it is successful.
-![build bc](metabase-bc-built.png "Metabase BC built")
+![build bc](img/metabase-bc-built.png "Metabase BC built")
 
 And you should have the tagged image (as well as the openjdk) in your images.
-![images](metabase-bc-images.png "Metabase images")
+![images](img/metabase-bc-images.png "Metabase images")
 
 ## Create Deployment Config
 In the same manner import the deployment config ([here](tbd)) with some cusomization.
@@ -216,24 +216,24 @@ Leave the other starred values blank and let Metabase generate.
 Wait a few minutes for the deployment to complete. It may look like the pod is up, but the Metabase may still be configuring itself and not completed.  
 You can check the pod logs to see status of Metabase startup.
 
-![deploy dc](metabase-dc-deployed.png "Metabase DC deployed")
+![deploy dc](img/metabase-dc-deployed.png "Metabase DC deployed")
 
 Once some time has passed click the URL to the Metabase site.  
 You should see the getting started page
 
-![metabase welcome](metabase-console-welcome.png "Metabase welcome page")
+![metabase welcome](img/metabase-console-welcome.png "Metabase welcome page")
 
 # Metabase Setup
 Click *Let's get started* and follow through the setup pages.  
 In step 1 set up yourself as the administrator.
 
-![metabase step1](metabase-console-1.png "Metabase setup step 1")
+![metabase step1](img/metabase-console-1.png "Metabase setup step 1")
 
 In step 2 select PostgreSQL as your database type, and for the Name you can enter whatever you want to refer to the database collection as.
 
 For the Host, you will select the Service Name referring to the database set up. This will be "postgresql" in this example, but to confirm (or if it was set to something else) you can check the Services list in the OpenShift Console.
 
-![services](metabase-console-service.png "The database service name")
+![services](img/metabase-console-service.png "The database service name")
 
 Leave the port as 5432 (can confirm on the services page).
 
@@ -241,7 +241,7 @@ Enter the Database Name as "sampledb", which was used in this example. If you us
 
 For the username and password for the database **use the read-only user** for the database you created and granted access to in an earlier step.
 
-![metabase step2](metabase-console-2.png "Metabase setup step 2").
+![metabase step2](img/metabase-console-2.png "Metabase setup step 2").
 
 In step 3 choose if you want to send annonymous usage stats and complete the setup.
 
@@ -254,7 +254,7 @@ This guide is not meant to be a comprehensive guide to using Metabase's features
 The sample dataset you imported was put into a data collection you called MetabaseQuickStart during the setup wizard (unless you chose another name). It can be accessed at the bottom of the main consle under OUR DATA.  
 Metabase also provides a pre-made "x-ray" of the new table in the collection featuring spme auto generated charts and readings. See TRY THESE X-RAYS BASED ON YOUR DATA at the top of the main console.
 
-![find your data](metabase-console-3.png "Metabase main page").
+![find your data](img/metabase-console-3.png "Metabase main page").
 
 Then you can click on the *Sample Data* table once in the MetabaseQuickStart collection, which will display the data in the table you imported as part of this documentation.  
 From there you can ask questions about the data, generate visualizations and more. Refer to the Metabase documentation for the many features available once analyzing a data table.
