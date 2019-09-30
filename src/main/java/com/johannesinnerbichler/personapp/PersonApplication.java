@@ -52,8 +52,8 @@ class PersonController {
     	try {
     		model.addAttribute("principal",principal);
     		   
-            String METABASE_SITE_URL = environment.getProperty("metabase-site-url");
-            String METABASE_SECRET_KEY = environment.getProperty("metabase-secret-key");
+            String METABASE_SITE_URL = environment.getProperty("metabasesiteurl");
+            String METABASE_SECRET_KEY = environment.getProperty("metabasesecretkey");
             Jwt token = JwtHelper.encode("{\"resource\": {\"dashboard\": 2}, \"params\": {}}", new MacSigner(METABASE_SECRET_KEY));
             String iframeUrl = METABASE_SITE_URL + "/embed/dashboard/" + token.getEncoded() + "#bordered=true&titled=true";
             model.addAttribute("iframeUrl", iframeUrl);
