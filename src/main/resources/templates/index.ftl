@@ -6,7 +6,7 @@
 </head>
 
 <body>
-<a href="/persons">All persons</a>
+<a href="/dashboard">View Your Dashboards</a>
 </body>
 
 </html>
