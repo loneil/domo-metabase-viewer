@@ -23,7 +23,7 @@ From the OpenShift web console, click to the Browse Catalog option and Filter to
 ![add postgres](img/database-postgres-add.png "Adding PostgreSQL to your OpenShift project")
 
 This will bring up the import wizard. Click next on step 1 and then in step 2 you can leave the values as default, other than to specify a username and strong password for yourself.
-For the purposes of the remainder of this documentdation the username and pw entered here will just be **admin** and **password123**.
+For the purposes of the remainder of this documentation the username and pw entered here will just be **admin** and **password123**.
 
 ![config postgres](img/database-postgres-config.png "PostgreSQL setup steps - Config")
 
@@ -113,8 +113,14 @@ CREATE TABLE "SampleData" (
 Run this script from above in the PSQL command line on the pod (see *Connect Locally to PostgreSQL Database* section above on connecting with a shell) to have the table created.  
 You can check the table got in after with the `\dt` command.
 
-```
-sampledb=> \dt;                                                                                                                                                                                                            List of relations                                                                                                                                                                                       Schema |    Name    | Type  | Owner                                                                                                                                                                             --------+------------+-------+-------                                                                                                                                                                             public | SampleData | table | admin                                                                                                                                                                             (1 row)   
+```sh
+sampledb=> \dt;
+
+          List of relations
+ Schema |    Name    | Type  | Owner
+--------+------------+-------+-------
+ public | SampleData | table | admin
+(1 row)
 ```
 
 ### 3. Copy CSV to Pod and Invoke COPY Command to Bulk Insert
@@ -148,7 +154,8 @@ Then log back in to the PSQL shell and use COPY to insert the contents of the fi
 sampledb=> \COPY "SampleData" FROM '/tmp/metabaseSample/SampleData.csv' WITH CSV HEADER; 
 COPY 43
 
-sampledb=> SELECT COUNT(*) FROM "SampleData";                                            count
+sampledb=> SELECT COUNT(*) FROM "SampleData";  
+count
 -------
     43
 ```
@@ -197,7 +204,7 @@ And you should have the tagged image (as well as the openjdk) in your images.
 ![images](img/metabase-bc-images.png "Metabase images")
 
 ## Create Deployment Config
-In the same manner import the deployment config ([here](metabase.dc.json)) with some cusomization.
+In the same manner import the deployment config ([here](metabase.dc.json)) with some customization.
 
 At the top alter the "metadata.name" property to reflect your project acronym (instead of domo-metabase).
 
@@ -243,7 +250,7 @@ For the username and password for the database **use the read-only user** for th
 
 ![metabase step2](img/metabase-console-2.png "Metabase setup step 2").
 
-In step 3 choose if you want to send annonymous usage stats and complete the setup.
+In step 3 choose if you want to send anonymous usage stats and complete the setup.
 
 # Using Metabase
 You are set up in Metabase now and should be able to navigate around the Metabase console.
@@ -252,14 +259,14 @@ This guide is not meant to be a comprehensive guide to using Metabase's features
 
 ## Analyze Sample Data
 The sample dataset you imported was put into a data collection you called MetabaseQuickStart during the setup wizard (unless you chose another name). It can be accessed at the bottom of the main consle under OUR DATA.  
-Metabase also provides a pre-made "x-ray" of the new table in the collection featuring spme auto generated charts and readings. See TRY THESE X-RAYS BASED ON YOUR DATA at the top of the main console.
+Metabase also provides a pre-made "x-ray" of the new table in the collection featuring some auto generated charts and readings. See TRY THESE X-RAYS BASED ON YOUR DATA at the top of the main console.
 
 ![find your data](img/metabase-console-3.png "Metabase main page").
 
 Then you can click on the *Sample Data* table once in the MetabaseQuickStart collection, which will display the data in the table you imported as part of this documentation.  
 From there you can ask questions about the data, generate visualizations and more. Refer to the Metabase documentation for the many features available once analyzing a data table.
 
-Once you creaete questions and visualizations you can then to dashboards and collections that you can share with other users in metabase.
+Once you create questions and visualizations you can then to dashboards and collections that you can share with other users in metabase.
 
 ## Add Other Users
 From the Admin panel you can invite other users.
