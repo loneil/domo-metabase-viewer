@@ -281,4 +281,9 @@ From the Metabase Admin screen you can use the *Permissions* tab to manage acces
 You have set up a quick Metabase instance pulling your data from a PostgreSQL database and configured user access to view and analyze this data.  
 This may be enough to fit your needs for a quick view into data you have transferred from existing CSV (or other) data sources, but if you wish to have a robust Metabase setup there are additional steps worth considering.
 
+## Embed Dashboards in application
+TBD
+https://www.metabase.com/docs/v0.24.1/administration-guide/13-embedding.html
+
 ## Transfer Metabase 
+
