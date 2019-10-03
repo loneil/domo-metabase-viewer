@@ -151,13 +151,18 @@ body {
         </nav>
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
 			<iframe
+        id="metabaseDashboard"
 				src="${iframeUrl}"
 				frameborder="0"
-				width="1400"
-				height="1300"
 				allowtransparency
+        width="100%" 
+        scrolling="no"
 			></iframe>
         </main>
       </div>
     </div>
 </html>
+
+
+      <script src="http://metabase-domo-domo.pathfinder.gov.bc.ca/app/iframeResizer.js"></script> 
+      <script type="text/javascript">iFrameResize({checkOrigin: false}, '#metabaseDashboard')</script>
