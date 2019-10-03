@@ -164,5 +164,5 @@ body {
 </html>
 
 
-      <script src="http://metabase-domo-domo.pathfinder.gov.bc.ca/app/iframeResizer.js"></script> 
+      <script src="https://metabase-domo-domo.pathfinder.gov.bc.ca/app/iframeResizer.js"></script> 
       <script type="text/javascript">iFrameResize({checkOrigin: false}, '#metabaseDashboard')</script>
