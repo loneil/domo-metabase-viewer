@@ -23,8 +23,9 @@
 hs_err_pid*
 /target/
 
-# eclipse etc
+# eclipse, intellij, etc
 .classpath
 .project
 .settings/
 target/
+.idea
