@@ -1,5 +1,4 @@
 nav.dashboard-sidebar {
-   padding-top: 75px;
    background-color: #e5e5e5;
    height: 100%;
    position: fixed;
@@ -8,6 +7,10 @@ nav.dashboard-sidebar {
 
 nav.dashboard-sidebar ul {
     padding-left: 15px;
+}
+
+header {
+    margin-bottom: 60px;
 }
 
 header nav {

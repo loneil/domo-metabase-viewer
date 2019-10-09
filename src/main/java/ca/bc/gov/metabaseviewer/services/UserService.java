@@ -18,7 +18,7 @@ public class UserService {
 
     public String getDashboard() {
         try {
-            final String METABASE_SITE_URL = environment.getProperty("metabasesiteurl");
+            final String METABASE_SITE_URL = environment.getProperty("METABASE_URL");
             logger.debug("getDashboard > getting dashboards from {}", METABASE_SITE_URL);
             final String METABASE_SECRET_KEY = environment.getProperty("metabasesecretkey");
             Jwt token = JwtHelper.encode("{\"resource\": {\"dashboard\": 2}, \"params\": {}}", new MacSigner(METABASE_SECRET_KEY));

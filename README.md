@@ -12,6 +12,20 @@ Doing things manually to test out in OpenShift, this will evolve as we pipeline 
 oc new-app redhat-openjdk18-openshift~https://github.com/loneil/domo-metabase-viewer
 
 
+## Environment variables
+Config:
+metabase-viewer-keycloak-config
+- KC_AUTH
+- KC_CLIENT
+- KC_REALM
+
+metabase-viewer-app-config
+- LOG_LEVEL
+- METABASE_URL
+
+Secret:
+metabasesecretkey
+
 
 Notes from spring boot initializr
 
