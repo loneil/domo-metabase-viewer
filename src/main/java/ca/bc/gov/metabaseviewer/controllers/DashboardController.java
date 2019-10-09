@@ -1,39 +1,37 @@
 package ca.bc.gov.metabaseviewer.controllers;
 
+import ca.bc.gov.metabaseviewer.services.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.security.jwt.Jwt;
-import org.springframework.security.jwt.JwtHelper;
-import org.springframework.security.jwt.crypto.sign.MacSigner;
-
-import ca.bc.gov.metabaseviewer.services.ProductService;
 
 import java.security.Principal;
 
 @Controller
 public class DashboardController {
-   @Autowired ProductService productService;
+    Logger logger = LoggerFactory.getLogger(DashboardController.class);
 
-   @Autowired
-   private Environment environment;
+    @Autowired
+    UserService userService;
 
-   @GetMapping(path = "/dashboard")
-   public String getPersons(Principal principal, Model model) {
-      try {
-         model.addAttribute("principal",principal);
+    @Autowired
+    private Environment environment;
 
-         String METABASE_SITE_URL = environment.getProperty("metabasesiteurl");
-         String METABASE_SECRET_KEY = environment.getProperty("metabasesecretkey");
-         model.addAttribute("url", "1234");
-         Jwt token = JwtHelper.encode("{\"resource\": {\"dashboard\": 2}, \"params\": {}}", new MacSigner(METABASE_SECRET_KEY));
-         String iframeUrl = METABASE_SITE_URL + "/embed/dashboard/" + token.getEncoded() + "#bordered=true&titled=true";
-         model.addAttribute("iframeUrl", iframeUrl);
-      } catch (Exception exception){
-         //Invalid Signing configuration / Couldn't convert Claims.
-      }
-      return "dashboard";
-   }
+    @GetMapping(path = "/dashboard")
+    public String getPersons(Principal principal, Model model) {
+        logger.info("/dashboard");
+
+        try {
+            model.addAttribute("principal", principal);
+            model.addAttribute("iframeUrl", userService.getDashboard());
+        } catch (Exception ex) {
+            logger.error("/dashboard error occurred. Ex: {}", ex.toString());
+            model.addAttribute("error", "An error occurred while attempting to fetch the dashboard.");
+        }
+        return "dashboard";
+    }
 }
