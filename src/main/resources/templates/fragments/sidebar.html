@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+    <nav th:fragment="sidebar" class="dashboard-sidebar col-lg-2 col-md-3 d-none d-md-block sidebar">
+        <div class="sidebar-sticky">
+
+            <h6 class="sidebar-heading px-3 mt-4 mb-1 text-muted">
+                <span>MY DASHBOARDS</span>
+            </h6>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link active" href="/dashboard/2">
+                        <i class="far fa-chart-bar"></i>
+                        Hosting Expense Report
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/dashboard/5">
+                        <i class="far fa-chart-bar"></i>
+                        Sample Dashboard
+                    </a>
+                </li>
+            </ul>
+
+            <h6 class="sidebar-heading px-3 mt-4 mb-1 text-muted">
+                <span>MORE</span>
+            </h6>
+            <ul class="nav flex-column mb-2">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">
+                        <i class="far fa-question-circle"></i>
+                        About
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link"
+                        href="mailto:NR.CommonServiceShowcase@gov.bc.ca?subject=Request Access to DOMO Metabase Viewer">
+                        <i class="far fa-envelope"></i>
+                        Contact
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</body>
+
+</html>

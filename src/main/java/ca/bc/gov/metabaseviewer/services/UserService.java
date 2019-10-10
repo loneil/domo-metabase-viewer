@@ -16,17 +16,23 @@ public class UserService {
     @Autowired
     private Environment environment;
 
-    public String getDashboard() {
+    public String getDashboard(int metabaseId) {
         try {
             final String METABASE_SITE_URL = environment.getProperty("METABASE_URL");
-            logger.debug("getDashboard > getting dashboards from {}", METABASE_SITE_URL);
             final String METABASE_SECRET_KEY = environment.getProperty("metabasesecretkey");
-            Jwt token = JwtHelper.encode("{\"resource\": {\"dashboard\": 2}, \"params\": {}}", new MacSigner(METABASE_SECRET_KEY));
+            logger.debug("getDashboard > getting dashboard no{} from {}", metabaseId, METABASE_SITE_URL);
+
+            Jwt token = JwtHelper.encode(dashJson(metabaseId), new MacSigner(METABASE_SECRET_KEY));
             String iframeUrl = METABASE_SITE_URL + "/embed/dashboard/" + token.getEncoded() + "#bordered=true&titled=true";
             return iframeUrl;
         } catch (Exception exception) {
-            logger.error("getDashboard > failed to create iFrameUrl. Exception: {}", exception.toString());
+            logger.error("getDashboard > failed to create iFrameUrl for dashboard no{}. Exception: {}", metabaseId, exception.toString());
             throw exception;
         }
+    }
+
+    public static String dashJson(int dashId) {
+        String jsonTemplate = "{\"resource\": {\"dashboard\": %d}, \"params\": {}}";
+        return String.format(jsonTemplate, dashId);
     }
 }

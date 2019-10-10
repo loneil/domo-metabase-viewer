@@ -7,14 +7,8 @@
 <body>
 
 <div layout:fragment="content">
-<iframe
-        id="metabaseDashboard"
-        th:src="${iframeUrl}"
-        frameborder="0"
-        allowtransparency
-        width="100%"
-        scrolling="no"
-></iframe>
+<h1>Welcome <span th:text="${principal.getName()}"></span></h1>
+    <p>Please access the Dashboards you have available to you under "MY DASHBOARDS" on the left-hand side menu.</p>
 </div>
 
 </body>

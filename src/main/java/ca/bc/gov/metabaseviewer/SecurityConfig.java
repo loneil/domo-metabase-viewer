@@ -52,7 +52,9 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter
 	{
 		super.configure(http);
 		http.authorizeRequests()
-				.antMatchers("/dashboard*").hasRole("dashboard-viewer") // only user with role user are allowed to access
+				.antMatchers("/dashboard").authenticated()
+				.antMatchers("/dashboard/*").authenticated()
 				.anyRequest().permitAll();
+		//.antMatchers("/dashboard*").hasRole("dashboard-viewer") // only user with role user are allowed to access
 	}
 }

@@ -1,16 +1,37 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" class="fill-height-sm">
 
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>I am default layout</title>
-</head>
+    <div th:replace="fragments/imports :: head"></div>
+    <title>Dashboard</title>
 
+</head>
 <body>
-    <h1>Header in default layout!</h1>
-    <div th:replace="fragments/header :: header">Header goes here!</div>
-    <div th:replace="${view} :: content">Content goes here!</div>
-    <div th:replace="fragments/footer :: footer">Footer goes here!</div>
+<div th:replace="fragments/header :: header"></div>
+
+<main class="container-fluid py-0">
+    <div class="row">
+        <div th:replace="fragments/sidebar :: sidebar"></div>
+
+        <main role="main" class="col-lg-10 col-md-9 ml-sm-auto pt-3 px-4">
+            <div th:if="${!#strings.isEmpty(error)}" class="alert alert-danger">
+                <span th:text="${error}"></span>
+            </div>
+            <div th:if="${#strings.isEmpty(error)}" class="container-fluid">
+                <div layout:fragment="content"></div>
+            </div>
+        </main>
+    </div>
+</main>
+
+<div th:replace="fragments/footer :: footer"></div>
+
+<div th:replace="fragments/imports :: scripts"></div>
+
+<!-- Metabase iFrame resizer scripts -->
+<script src="https://metabase-domo-domo.pathfinder.gov.bc.ca/app/iframeResizer.js"></script>
+<script type="text/javascript" defer>iFrameResize({checkOrigin: false}, '#metabaseDashboard')</script>
 </body>
 
 </html>

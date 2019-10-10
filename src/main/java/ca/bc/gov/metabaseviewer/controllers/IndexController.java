@@ -22,6 +22,6 @@ public class IndexController {
    public String logout(HttpServletRequest request) throws ServletException {
       logger.info("/logout");
       request.logout();
-      return "index";
+      return "redirect:/";
    }
 }
