@@ -14,12 +14,14 @@
                 DOMO Metabase Viewer
             </div>
             <div th:if="${principal == null}">
-                <a class="btn btn-bcgold my-2 my-sm-0" href="/dashboard">Log In</a>
+                <a class="btn btn-bcgold my-2 my-sm-0" href="/sec/dashboard">Log In</a>
             </div>
             <div th:if="${principal != null}">
                 <ul class="navbar-nav px-3">
                     <li class="nav-item text-nowrap">
-                        <i class="fas fa-user"></i> <span th:text="${principal.getName()}"></span> &nbsp; | &nbsp;
+                        <a th:href="@{/sec/user}" class="profile-link">
+                            <i class="fas fa-user"></i> <span th:text="${principal.getName()}"></span>
+                        </a>&nbsp; | &nbsp;
                         <a class="btn btn-sm btn-bcgold my-2 my-sm-0" href="/logout">Log Out</a>
                     </li>
                 </ul>

@@ -10,13 +10,13 @@
             </h6>
             <ul class="nav flex-column">
                 <li class="nav-item">
-                    <a class="nav-link active" href="/dashboard/2">
+                    <a class="nav-link active" th:href="@{/sec/dashboard/2}">
                         <i class="far fa-chart-bar"></i>
                         Hosting Expense Report
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="/dashboard/5">
+                    <a class="nav-link active" th:href="@{/sec/dashboard/5}">
                         <i class="far fa-chart-bar"></i>
                         Sample Dashboard
                     </a>
@@ -27,6 +27,12 @@
                 <span>MORE</span>
             </h6>
             <ul class="nav flex-column mb-2">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/sec/user}">
+                        <i class="far fa-user"></i>
+                        User
+                    </a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/">
                         <i class="far fa-question-circle"></i>

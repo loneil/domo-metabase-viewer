@@ -13,6 +13,20 @@ header {
     margin-bottom: 60px;
 }
 
+header .profile-link {
+     color:white;
+     text-decoration:none;
+}
+
+header .profile-link:hover, header .profile-link:active {
+    color:white;
+    text-decoration:underline;
+}
+
 header nav {
     color: white;
+}
+
+.main-content {
+    padding: 75px;
 }
