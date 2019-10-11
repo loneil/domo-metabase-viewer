@@ -25,9 +25,4 @@ public class IndexController {
       request.logout();
       return "redirect:/";
    }
-
-   @RequestMapping("/4xx")
-   public String accessDenied() {
-      return "errors/4xx";
-   }
 }

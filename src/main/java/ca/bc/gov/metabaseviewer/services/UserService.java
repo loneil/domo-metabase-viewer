@@ -85,21 +85,25 @@ public class UserService {
         // Could be in a configmap in OS, but maybe not worth the effor if it doesn't change frequently enough.
 
         // Get the roles for the current user from their token, dashboards allowed are mapped to roles
-        AccessToken.Access clientAccess = token.getResourceAccess(clientId); // getRealmAccess if need realm roles
-        Set<String> roles = clientAccess.getRoles();
-        logger.debug("user roles: {}", roles.toString());
-
         List<Dashboard> list = new ArrayList<Dashboard>();
-        if (roles.contains("dashboard-set-summary") || roles.contains("dashboard-set-all")) {
-            // Dashboards for users who have all
-            list.add(new Dashboard("Hosting Expense Report", 2));
+        AccessToken.Access clientAccess = token.getResourceAccess(clientId); // getRealmAccess if need realm roles
+        if (clientAccess != null) {
+            Set<String> roles = clientAccess.getRoles();
+            logger.debug("getAvailableDashboards > user {} has roles: {}", token.getId(), roles.toString());
+
+            if (roles.contains("dashboard-set-summary") || roles.contains("dashboard-set-all")) {
+                // Dashboards for users who have all
+                list.add(new Dashboard("Hosting Expense Report", 2));
+            }
+            if (roles.contains("dashboard-set-all")) {
+                // Dashboards for users with summary
+                list.add(new Dashboard("Restricted Dashboard", 6));
+            }
+            // Dashboards for everyone
+            list.add(new Dashboard("Sample Dashboard", 5));
+        } else {
+            logger.debug("getAvailableDashboards > user has no client access yet. User: {}", token.getId());
         }
-        if (roles.contains("dashboard-set-all")) {
-            // Dashboards for users with summary
-            list.add(new Dashboard("Restricted Dashboard", 6));
-        }
-        // Dashboards for everyone
-        list.add(new Dashboard("Sample Dashboard", 5));
         return list;
     }
 }
