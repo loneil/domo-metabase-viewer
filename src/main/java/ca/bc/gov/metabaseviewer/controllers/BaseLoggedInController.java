@@ -20,8 +20,7 @@ public abstract class BaseLoggedInController {
     @Autowired
     protected UserService userService;
 
-    protected void addCommonUserAttributes(final Principal principal, final Model model) {
-        model.addAttribute("principal", principal);
+    protected void addCommonUserAttributes(final Model model) {
         model.addAttribute("dashboards", userService.getAvailableDashboards());
     }
 }

@@ -13,14 +13,14 @@
             <div class="navbar-brand">
                 DOMO Metabase Viewer
             </div>
-            <div th:if="${principal == null}">
+            <div sec:authorize="not isAuthenticated()">
                 <a class="btn btn-bcgold my-2 my-sm-0" href="/sec/dashboard">Log In</a>
             </div>
-            <div th:if="${principal != null}">
+            <div sec:authorize="isAuthenticated()">
                 <ul class="navbar-nav px-3">
                     <li class="nav-item text-nowrap">
                         <a th:href="@{/sec/user}" class="profile-link">
-                            <i class="fas fa-user"></i> <span th:text="${principal.getName()}"></span>
+                            <i class="fas fa-user"></i> <span th:text="${#authentication.principal.getName()}"></span>
                         </a>&nbsp; | &nbsp;
                         <a class="btn btn-sm btn-bcgold my-2 my-sm-0" href="/logout">Log Out</a>
                     </li>

@@ -2,19 +2,12 @@ package ca.bc.gov.metabaseviewer.controllers;
 
 import ca.bc.gov.metabaseviewer.exception.NrUnauthorizedException;
 import ca.bc.gov.metabaseviewer.model.Dashboard;
-import ca.bc.gov.metabaseviewer.services.UserService;
-import org.apache.catalina.filters.ExpiresFilter;
-import org.apache.http.HttpResponse;
-import org.keycloak.representations.AccessToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.client.HttpClientErrorException;
 
 import java.security.Principal;
 import java.util.ArrayList;
@@ -24,20 +17,17 @@ import java.util.List;
 public class DashboardController extends BaseLoggedInController {
     Logger logger = LoggerFactory.getLogger(DashboardController.class);
 
-    @Value("${keycloak.resource}")
-    private String clientId;
-
     @GetMapping(path = "/sec/dashboard")
-    public String getDashboardHome(Principal principal, Model model) {
+    public String getDashboardHome(Model model) {
         logger.info("/dashboard");
-        addCommonUserAttributes(principal, model);
+        addCommonUserAttributes(model);
         return "welcome";
     }
 
     @GetMapping(path = "/sec/dashboard/{metabaseId}")
-    public String getDashboard(@PathVariable(name = "metabaseId") Integer metabaseId, Principal principal, Model model) {
+    public String getDashboard(@PathVariable(name = "metabaseId") Integer metabaseId, Model model) {
         logger.info("/dashboard/{}", metabaseId);
-        addCommonUserAttributes(principal, model);
+        addCommonUserAttributes(model);
 
         // TODO: refactor into service layer and unit test
         // Is this user allowed to access the dashboard from the URL (if they direct accessed the URL)

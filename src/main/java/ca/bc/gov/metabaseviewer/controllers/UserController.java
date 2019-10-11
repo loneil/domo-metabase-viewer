@@ -19,7 +19,7 @@ public class UserController extends BaseLoggedInController {
 
     @GetMapping(path = "/sec/user")
     public String getUser(Principal principal, Model model) {
-        addCommonUserAttributes(principal, model);
+        addCommonUserAttributes(model);
         model.addAttribute("userDetails", userService.getUserDetails(principal));
 
         return "user";

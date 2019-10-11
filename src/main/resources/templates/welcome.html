@@ -7,7 +7,7 @@
 <body>
 
 <div layout:fragment="content" class="main-content">
-<h1>Welcome <span th:text="${principal.getName()}"></span></h1>
+<h1>Welcome <span th:text="${#authentication.principal.getName()}"></span></h1>
     <p>Please access the Dashboards you have available to you under "MY DASHBOARDS" on the left-hand side menu.</p>
     <span th:text="${token}"></span>
 </div>

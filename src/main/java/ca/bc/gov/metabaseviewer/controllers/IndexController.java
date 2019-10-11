@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class IndexController {
@@ -23,5 +24,10 @@ public class IndexController {
       logger.info("/logout");
       request.logout();
       return "redirect:/";
+   }
+
+   @RequestMapping("/4xx")
+   public String accessDenied() {
+      return "errors/4xx";
    }
 }
