@@ -1,6 +1,10 @@
 package ca.bc.gov.metabaseviewer.controllers;
 
+import ca.bc.gov.metabaseviewer.exception.NrUnauthorizedException;
+import ca.bc.gov.metabaseviewer.model.Dashboard;
 import ca.bc.gov.metabaseviewer.services.UserService;
+import org.apache.catalina.filters.ExpiresFilter;
+import org.apache.http.HttpResponse;
 import org.keycloak.representations.AccessToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,8 +14,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class DashboardController extends BaseLoggedInController {
@@ -31,6 +38,14 @@ public class DashboardController extends BaseLoggedInController {
     public String getDashboard(@PathVariable(name = "metabaseId") Integer metabaseId, Principal principal, Model model) {
         logger.info("/dashboard/{}", metabaseId);
         addCommonUserAttributes(principal, model);
+
+        // TODO: refactor into service layer and unit test
+        // Is this user allowed to access the dashboard from the URL (if they direct accessed the URL)
+        // Get allowed dashboards out of the model since they've already been calculated in the base class
+        List<Dashboard> allowed = (ArrayList<Dashboard>) model.asMap().get("dashboards");
+        if (!allowed.stream().anyMatch(dash -> dash.getMetabaseId() == metabaseId)) {
+            throw new NrUnauthorizedException();
+        }
 
         try {
             model.addAttribute("iframeUrl", userService.getDashboard(metabaseId));

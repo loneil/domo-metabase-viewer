@@ -8,17 +8,11 @@
             <h6 class="sidebar-heading px-3 mt-4 mb-1 text-muted">
                 <span>MY DASHBOARDS</span>
             </h6>
-            <ul class="nav flex-column">
+            <ul class="nav flex-column" th:each="dash : ${dashboards}">
                 <li class="nav-item">
-                    <a class="nav-link active" th:href="@{/sec/dashboard/2}">
+                    <a class="nav-link active" th:href="@{/sec/dashboard/{dashId}(dashId=${dash.metabaseId})}">
                         <i class="far fa-chart-bar"></i>
-                        Hosting Expense Report
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" th:href="@{/sec/dashboard/5}">
-                        <i class="far fa-chart-bar"></i>
-                        Sample Dashboard
+                        <span th:text="${dash.displayName}"></span>
                     </a>
                 </li>
             </ul>

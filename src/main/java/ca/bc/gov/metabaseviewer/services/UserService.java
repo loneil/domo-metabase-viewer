@@ -3,10 +3,12 @@ package ca.bc.gov.metabaseviewer.services;
 import ca.bc.gov.metabaseviewer.model.Dashboard;
 import ca.bc.gov.metabaseviewer.model.UserDetails;
 import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
+import org.keycloak.representations.AccessToken;
 import org.keycloak.representations.IDToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.security.jwt.Jwt;
 import org.springframework.security.jwt.JwtHelper;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Component;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Component
 public class UserService {
@@ -24,9 +27,11 @@ public class UserService {
     @Autowired
     private Environment environment;
 
-//    public List<String> getAvailableDashboards(Principal user) {
-////
-////    };
+    @Autowired
+    protected AccessToken token;
+
+    @Value("${keycloak.resource}")
+    private String clientId;
 
     public String getDashboard(int metabaseId) {
         try {
@@ -53,6 +58,7 @@ public class UserService {
     }
 
     public UserDetails getUserDetails(Principal principal) {
+        logger.debug("getUserDetails >");
         if (principal == null) {
             throw new IllegalArgumentException("Supplied principal is null");
         }
@@ -73,16 +79,27 @@ public class UserService {
     }
 
     public List<Dashboard> getAvailableDashboards() {
+        logger.debug("getAvailableDashboards >");
         // TODO: This needs to pull from some static config or json or something instead of coded in this method.
         // In that, dictate which roles are allowed to see the dashboard, or have some other static/config mapping roles to dashboards
         // Could be in a configmap in OS, but maybe not worth the effor if it doesn't change frequently enough.
-        Dashboard expenseDash = new Dashboard("Hosting Expense Report", 2);
-        Dashboard sampleDash = new Dashboard("Sample Dashboard", 5);
-        Dashboard anotherSampleDash = new Dashboard("Additional Sample Dashboard", 6);
+
+        // Get the roles for the current user from their token, dashboards allowed are mapped to roles
+        AccessToken.Access clientAccess = token.getResourceAccess(clientId); // getRealmAccess if need realm roles
+        Set<String> roles = clientAccess.getRoles();
+        logger.debug("user roles: {}", roles.toString());
+
         List<Dashboard> list = new ArrayList<Dashboard>();
-        list.add(expenseDash);
-        list.add(sampleDash);
-        list.add(anotherSampleDash);
+        if (roles.contains("dashboard-set-summary") || roles.contains("dashboard-set-all")) {
+            // Dashboards for users who have all
+            list.add(new Dashboard("Hosting Expense Report", 2));
+        }
+        if (roles.contains("dashboard-set-all")) {
+            // Dashboards for users with summary
+            list.add(new Dashboard("Restricted Dashboard", 6));
+        }
+        // Dashboards for everyone
+        list.add(new Dashboard("Sample Dashboard", 5));
         return list;
     }
 }
