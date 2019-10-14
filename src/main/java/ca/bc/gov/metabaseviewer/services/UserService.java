@@ -1,5 +1,6 @@
 package ca.bc.gov.metabaseviewer.services;
 
+import ca.bc.gov.metabaseviewer.exception.NrUnauthorizedException;
 import ca.bc.gov.metabaseviewer.model.Dashboard;
 import ca.bc.gov.metabaseviewer.model.UserDetails;
 import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
@@ -99,11 +100,22 @@ public class UserService {
                 // Dashboards for users with summary
                 list.add(new Dashboard("Restricted Dashboard", 6));
             }
-            // Dashboards for everyone
-            list.add(new Dashboard("Sample Dashboard", 5));
         } else {
             logger.debug("getAvailableDashboards > user has no client access yet. User: {}", token.getId());
         }
+        // Dashboards for everyone
+        list.add(new Dashboard("Sample Dashboard", 5));
         return list;
+    }
+
+    /**
+     * Can this user access this path (/dashboards/{id})? Throw a 403 if not
+     * @param metabaseId the id being accessed
+     * @param loadedDashboards the list of dashboards for the user
+     */
+    public static void checkDashboardAllowed(Integer metabaseId, List<Dashboard> loadedDashboards) {
+        if (!loadedDashboards.stream().anyMatch(dash -> dash.getMetabaseId() == metabaseId)) {
+            throw new NrUnauthorizedException();
+        }
     }
 }
