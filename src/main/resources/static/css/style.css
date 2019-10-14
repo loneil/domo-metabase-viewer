@@ -1,0 +1,32 @@
+nav.dashboard-sidebar {
+   background-color: #e5e5e5;
+   height: 100%;
+   position: fixed;
+   overflow-x: hidden;
+}
+
+nav.dashboard-sidebar ul {
+    padding-left: 15px;
+}
+
+header {
+    margin-bottom: 60px;
+}
+
+header .profile-link {
+     color:white;
+     text-decoration:none;
+}
+
+header .profile-link:hover, header .profile-link:active {
+    color:white;
+    text-decoration:underline;
+}
+
+header nav {
+    color: white;
+}
+
+.main-content {
+    padding: 75px;
+}
