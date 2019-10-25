@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <th:block th:fragment="head">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport"
           content="width=device-width, initial-scale=1, shrink-to-fit=no"
           charset="UTF-8"/>
@@ -54,12 +54,26 @@
             integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
             crossorigin="anonymous"></script>
     <script>
-		// enable popovers everywhere
+		// enable popovers and tooltips everywhere
 		$(function() {
-			$('[data-toggle="popover"]').popover()
+		    $('[data-toggle="popover"]').popover()
 		})
-
-
+		$(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
+    <script>
+        $(document).ready(function(){
+          // had this implemented with CSS variables instead but stupid stupid IE11...
+          $(".hide-side").on("click", function(){
+            $("nav.dashboard-sidebar").addClass("dashboard-sidebar-collapsed");
+            $(".dashboard-body").addClass("sidebar-collapsed");
+          });
+          $(".show-side").on("click", function(){
+            $("nav.dashboard-sidebar").removeClass("dashboard-sidebar-collapsed");
+            $(".dashboard-body").removeClass("sidebar-collapsed");
+          });
+        });
     </script>
 </th:block>
 <body>
