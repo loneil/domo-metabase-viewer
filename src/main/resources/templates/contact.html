@@ -13,8 +13,8 @@
             <form action="#" th:action="@{/sec/contact}" th:object="${contactForm}" method="post">
                 <div class="form-group">
                     <label for="emailAddress">Email address</label>
-                    <input class="form-control" id="emailAddress" th:value="${userDetails.getEmail()}"
-                           type="email" th:field="*{email}">
+                    <input class="form-control" id="emailAddress"
+                           type="email" th:field="*{email}" readonly>
                 </div>
                 <div class="form-group">
                     <label for="inquiry">Type of Inquiry</label>

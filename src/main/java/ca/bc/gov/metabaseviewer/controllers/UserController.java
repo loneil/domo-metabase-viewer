@@ -33,8 +33,9 @@ public class UserController extends BaseLoggedInController {
     @GetMapping(path = "/sec/contact")
     public String getContact(Principal principal, Model model) {
         addCommonUserAttributes(model);
-        model.addAttribute("userDetails", userService.getUserDetails(principal));
-        model.addAttribute("contactForm", new ContactForm());
+        ContactForm contactForm = new ContactForm();
+        contactForm.setEmail(userService.getUserDetails(principal).getEmail());
+        model.addAttribute("contactForm", contactForm);
 
         return "contact";
     }
