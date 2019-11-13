@@ -75,6 +75,13 @@
             <version>1.0.10.RELEASE</version>
         </dependency>
 
+        <!-- Spring Security Oauth -->
+        <dependency>
+            <groupId>org.springframework.security.oauth.boot</groupId>
+            <artifactId>spring-security-oauth2-autoconfigure</artifactId>
+            <version>2.0.0.RELEASE</version>
+        </dependency>
+
         <!-- Keycloak plugin for Spring Boot -->
         <dependency>
             <groupId>org.keycloak</groupId>
