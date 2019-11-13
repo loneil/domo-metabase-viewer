@@ -55,6 +55,7 @@ public class ContactController extends BaseLoggedInController {
             HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
 
             RestTemplate restTemplate = new RestTemplate();
+            logger.debug("fetching token. auth endpoint: {}", chesProperties.getAuth());
             ResponseEntity<TokenResponse> response = restTemplate.postForEntity( chesProperties.getAuth(), request , TokenResponse.class );
             addCommonUserAttributes(model);
 
