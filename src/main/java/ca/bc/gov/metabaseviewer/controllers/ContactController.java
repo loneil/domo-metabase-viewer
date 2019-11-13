@@ -59,6 +59,7 @@ public class ContactController extends BaseLoggedInController {
             addCommonUserAttributes(model);
 
             String token = response.getBody().getAccess_token();
+            logger.debug("token: {}", token);
 
             ChesEmailBody email = new ChesEmailBody();
             email.setFrom(contactForm.getEmail());
@@ -72,6 +73,7 @@ public class ContactController extends BaseLoggedInController {
             emailHeaders.setBearerAuth(token);
             emailHeaders.setContentType(MediaType.APPLICATION_JSON);
             HttpEntity<ChesEmailBody> emailEntity = new HttpEntity<>(email , emailHeaders);
+            logger.debug("Calling CHES");
             ResponseEntity<ChesEmailResponse> emailResponse = restTemplate.postForEntity( chesProperties.getEmailEndpoint(), emailEntity , ChesEmailResponse.class );
 
             if(emailResponse.getStatusCodeValue() != 201) {
