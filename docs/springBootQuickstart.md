@@ -1,14 +1,8 @@
 # Overview
-Under construction
+This document maps the simplest way to have an IDIR-secured authenticated web application deployed to production using Spring Boot and Keycloak in the Pathfinder environment.
 
 Screenshots in this documentation are using an OpenShift project called "DOMO" and an application called "domo-metabase-viewer." So if you see any references to those names in the screenshots they are just from the example used to construct this guide.  
 You should not need to reference itThat project can be presently found at https://github.com/loneil/domo-metabase-viewer, but may be subject to change.
-
-## Prerequisites
-Under construction
-
-## Configure Existing Keycloak Realm
-under construction
 
 ### Add Client for Application
 
@@ -22,16 +16,90 @@ Configure the client, for this example leave the defaults but change the followi
 ![editClient](quickstartImg/kcSetup/setupClient.png "Set up your client")
 
 ## Setting up Spring Boot Application
-under construction
+### Dependencies
+The latest Spring Boot Keycloak Starter dependencies can be found on Maven Central.
+The Keycloak Spring Boot adapter capitalizes on Spring Boot’s auto-configuration, so all we need to do is add the Keycloak Spring Boot starter to our project.
+Within the dependencies XML element, we need the following to run Keycloak with Spring Boot:
 
-## Creating New Application in OpenShift
-under construction
 
-### S2i Image
-Under construction 
+```
+<dependency>
+    <groupId>org.keycloak</groupId>
+    <artifactId>keycloak-spring-boot-starter</artifactId>
+</dependency>
+```
 
-### Set Up Environment Config
-Under construction
+After the dependencies XML element, we need to specify dependencyManagement for Keycloak:
+```
+<dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>org.keycloak.bom</groupId>
+            <artifactId>keycloak-adapter-bom</artifactId>
+            <version>3.3.0.Final</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+    </dependencies>
+</dependencyManagement>
+```
+
+### Thymeleaf Web Pages
+We will use using Thymeleaf for our web pages.
+
+We've got three pages:
+
+external.html – an externally facing web page for the public
+customers.html – an internally facing page that will have its access restricted to only authenticated users with the role “user.”
+layout.html – a simple layout, consisting of two fragments, that is used for both the externally facing page and the internally facing page
+The code for the Thymeleaf templates is available on Github.
+
+### Controller
+The web controller maps the internal and external URLs to the appropriate Thymeleaf templates:
+```
+@GetMapping(path = "/")
+public String index() {
+    return "external";
+}
+     
+@GetMapping(path = "/customers")
+public String customers(Model model) {
+    addCustomers();
+    model.addAttribute("customers", customerDAO.findAll());
+    return "customers";
+}
+```
+For the path /customers, we're retrieving all customers from a repository and adding the result as an attribute to Model. Later on, we iterate through the results in Thymeleaf.
+
+### Keycloak Configuration
+Here's the basic, mandatory configuration:
+
+```
+keycloak.auth-server-url=YOUR SERVER HERE
+keycloak.realm=YOUR REALM HERE
+keycloak.resource=login-app
+keycloak.public-client=true
+```
+
+
+The value we specify in keycloak.resource matches the client we named in the admin console.
+
+Here are security constraints we'll be using:
+
+```
+keycloak.security-constraints[0].authRoles[0]=user
+keycloak.security-constraints[0].securityCollections[0].patterns[0]=/customers/*
+```
+The above security restraints state ensure every request to /customers/* will only be authorized if the one requesting it's an authenticated user with the role “user”.
+
+### Start app
+Now, we're ready to test our application. To run a Spring Boot application, we can start it easily through an IDE like IntelliJ or Eclipse or run this command in the terminal:
+
+```
+mvn clean spring-boot:run
+```
+
+Naigate to localhost:8081.
 
 ### OC New App 
 Log in to the OpenShift project that you are wanting to deploy to in the typical manner with Copy Login Command.  
@@ -53,7 +121,6 @@ You can see the completed (or in progress) deployment on your Overview tab.
 At this point it's worth going in to the deployment and poking around to familiarize yourself.
 
 ### Add Environment Variables
-UNDER CONST
 
 While setting up your application properties you referred to environment variables for the Keycloak connection details. You will now set those up in OpenShift so that your deployed application will access them.
 In a healthy, more evolved, DevOps paradigm, you would have these configuration values set up as part of your infrastructure-as-code and pipeline so that you would be able to recreate the necessary environment should you need to start from scratch.  
@@ -88,5 +155,3 @@ Insecure Traffic - Redirect
 Accept the changes, this will results in a route in the format of https://<deployment-name>-<project-name>.pathfinder.gov.bc.ca  
 
 Give it a few seconds to set up the routing and then you should be able to navigate to your deployed application.
-
-## Next Steps
